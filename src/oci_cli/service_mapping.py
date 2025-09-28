@@ -18,6 +18,11 @@ service_mapping = {
         "Language",
         "Analytics & AI"
     ],
+    "ai-data-platform": [
+        "ai_data_platform",
+        "AiDataPlatform Control Plane",
+        "Others"
+    ],
     "ai-document": [
         "ai_document",
         "Document Understanding",
@@ -240,7 +245,7 @@ service_mapping = {
     ],
     "dbmulticloud": [
         "dbmulticloud",
-        "Oracle Database MultiCloud Data plane Integration",
+        "Oracle Database MultiCloud Data Plane Integration",
         "Others"
     ],
     "dbtools": [
@@ -395,7 +400,12 @@ service_mapping = {
     ],
     "jms-java-downloads": [
         "jms_java_downloads",
-        "Java Management Service Download",
+        "Java Management Service Java Download",
+        "Others"
+    ],
+    "jms-utils": [
+        "jms_utils",
+        "Java Management Service Utilities",
         "Others"
     ],
     "kafka": [
@@ -641,6 +651,11 @@ service_mapping = {
     "redis": [
         "redis",
         "OCI Cache",
+        "Others"
+    ],
+    "resource-analytics": [
+        "resource_analytics",
+        "Resource Analytics",
         "Others"
     ],
     "resource-manager": [

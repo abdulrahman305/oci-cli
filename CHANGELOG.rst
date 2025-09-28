@@ -6,6 +6,236 @@ All notable changes to this project will be documented in this file.
 
 The format is based on `Keep a Changelog <http://keepachangelog.com/>`__.
 
+3.66.2 - 2025-09-23
+--------------------
+Added
+~~~~~
+
+* Database Service
+
+    * Support for Oracle Exadata Database Service on Dedicated Infrastructure (Exacs) with Exascale features
+        * ``oci db cloud-exa-infra configure-exascale``
+
+    * Managing Exascale Database Storage Vault resources on Dedicated Infrastructure
+        * ``oci db exascale-db-storage-vault create --exa-infra-id``
+
+    * Managing VM Cluster resources on Dedicated Infrastructure with exascale
+        * ``oci db cloud-vm-cluster create --vault-id``
+
+* Marketplace Service
+
+    * Support for marketplace external attestated metadata creation in the marketplace consumer service.
+        * ``oci marketplace create-marketplace-external-attested-metadata-details create-marketplace-external-attested-metadata``
+
+    * Support for listing marketplace metadata public keys in the marketplace consumer service
+        * ``oci marketplace marketplace-metadata-public-key-summary list-marketplace-metadata-public-keys``
+
+* Support for the Resource Analytics service
+  * ``oci resource-analytics``
+
+* Support for OCI cache service
+  * ``oci cache``
+
+* JMS Util Service
+
+    * Support for subscription acknowledgment in Java Management Service
+        * ``oci jms-utils subscription-acknowledgment-configuration``
+
+    * Support for analyzing application artifactss in Java Management Service Analyze Applications
+        * ``oci jms-utils analyze-applications-configuration``
+        * ``oci jms-utils java-migration-analysis``
+        * ``oci jms-utils performance-tuning-analysis``
+
+    * Support for querying work requests independently from Fleets in Java Management Service Analyze Applications
+        * ``oci jms-utils work-item-summary``
+        * ``oci jms-utils work-request``
+        * ``oci jms-utils work-request-error``
+        * ``oci jms-utils work-request-log-entry``
+
+* Data Safe Service
+
+    * Support for listing discovery job results with confidence level
+        * ``oci data-safe discovery-job list-discovery-job-results --confidence-level``
+
+    * Support for filtering masking reports with target-database -group-id
+        * ``oci data-safe masking-policy list-masking-reports --target-database-group-id``
+
+    * Support for masking target-database with optional seed parameter
+        * ``oci data-safe masking-policy mask-data --user-defined-function-seed``
+
+    * Support for security assessment listing findings with optional compartmentId param
+        * ``oci data-safe security-assessment list-findings --compartment-id | -c``
+
+    * Support for filtering sensitive columns containing data or with a specific confidence level
+        * ``oci data-safe sensitive-column list --column-data-count-filter, --confidence-level``
+
+* Java Management Service
+
+    * Support for listing containers in Java Management Service
+        * ``oci jms container-summary``
+
+    * Support for managing task schedules in Java Management Service
+        * ``oci jms task-schedule``
+
+    * Support for querying library usage information in Java Management Service
+        * ``oci jms library-inventory``
+        * ``oci jms library-application-usage-summary``
+        * ``oci jms library-managed-instance-usage-summary``
+        * ``oci jms uncorrelated-package-application-usage-summary``
+        * ``oci jms uncorrelated-package-managed-instance-usage-summary``
+        * ``oci jms uncorrelated-package-usage-summary``
+
+    * Add new options to existing commands.
+        * ``oci jms agent-installer-summary generate-agent-installer-configuration --agent-type``
+        * ``oci jms export-setting update --export-data-filters, --force``
+        * ``oci jms fleet-agent-configuration update --is-capturing-ip-address-and-fqdn-enabled, --is-libraries-scan-enabled``
+        * ``oci jms jms-plugin create --agent-type``
+        * ``oci jms library-usage scan --dynamic-scan-duration-in-minutes, --is-dynamic-scan``
+
+3.66.1 - 2025-09-16
+--------------------
+Added
+~~~~~
+
+* Database Service
+
+  * Support for creating refreshable metadata clones for an Autonomous Database Serverless
+
+    * ``oci db autonomous-database create-refreshable-clone --clone-type``
+
+  * Support for new parameter in the Database Management service
+
+    * ``oci db system change-cloud-db-system-subscription --db-system-id``
+
+  * Support for the Oracle BaseDB service for Multicloud Database Service
+
+    * ``oci db system launch --db-system-id --cluster-placement-group-id --opc-dry-run --subscription-id``
+    * ``oci db system launch-from-backup --cluster-placement-group-id --opc-dry-run --subscription-id``
+    * ``oci db system launch-from-database --cluster-placement-group-id --opc-dry-run --subscription-id``
+    * ``oci db system launch-from-db-system --cluster-placement-group-id --opc-dry-run --subscription-id``
+    * ``oci db system update --opc-dry-run``
+
+* AI Data Platform Service
+
+  * Support for AI Data Platform Service
+
+    * ``oci ai-data-platform ai-data-platform change-compartment``
+    * ``oci ai-data-platform ai-data-platform create``
+    * ``oci ai-data-platform ai-data-platform delete``
+    * ``oci ai-data-platform ai-data-platform get``
+    * ``oci ai-data-platform ai-data-platform update``
+    * ``oci ai-data-platform ai-data-platform-collection list-ai-data-platforms``
+    * ``oci ai-data-platform work-request cancel``
+    * ``oci ai-data-platform work-request get``
+    * ``oci ai-data-platform work-request list``
+    * ``oci ai-data-platform work-request-error list``
+    * ``oci ai-data-platform work-request-log-entry list-work-request-logs``
+
+3.66.0 - 2025-09-09
+--------------------
+Added
+~~~~~
+
+* Database Service
+
+  * Support for Undelete Autonomous Database on public cloud and cloud at customer
+
+    * ``oci db autonomous-database create-autonomous-database-undelete-autonomous-database-details``
+
+  * Support for setting backup retention policy after termination and lock retention for backup configuration while creating and updating Autonomous Container Database.
+
+    * ``oci db autonomous-container-database create``
+    * ``oci db autonomous-container-database update``
+
+  * Support for Deleting associated Long Term Backups while deleting the Autonomous Database.
+
+    * ``oci db autonomous-database delete --must-delete-associated-long-term-backups [boolean] [optional]``
+
+  * Support for listing Autonomous Database Backups by backup destination id and infrastructure type when applicable.
+
+    * ``oci db autonomous-database-backup list --backup-destination-id  [text] --infrastructure-type [text]``
+
+  * Support for listing Autonomous Database Backups by key store id and infrastructure type as applicable.
+
+    * ``oci db autonomous-database-backup list --key-store-id [text] --infrastructure-type [text]``
+
+* Email Delivery Service
+
+  * Support for Locking API in Email Delivery service
+
+    * ``oci email-control emailDomains update``
+    * ``oci email-control emailIpPools update``
+    * ``oci email-control EmailPrivateEndpoints update``
+    * ``oci email-control emailReturnPaths update``
+    * ``oci email-control emailTrackConfigs update``
+    * ``oci email-control senders update``
+
+Modified
+~~~~~~~~
+* Database Service
+
+  * [BREAKING] Changed enum value from ENTERPRISE_EDITION_EXTREME to ENTERPRISE_EDITION_EXTREME_PERFORMANCE for database-edition parameter
+
+    * ``oci db system list-db-system-storage-performances --database-edition ENTERPRISE_EDITION_EXTREME_PERFORMANCE``
+
+3.65.1 - 2025-09-02
+--------------------
+Added
+~~~~~
+* Database Service
+
+  * Support for Autoscale DB Storage Vault in the Exadata Database Service on Exascale Infrastructure
+
+    * ``oci db exascale-db-storage-vault create --is_autoscale_enabled, --autoscale_limit_in_gbs``
+    * ``oci db exascale-db-storage-vault update --is_autoscale_enabled, --autoscale_limit_in_gbs``
+
+  * DG creation with GCP, changing encryption key location to gcp, and two new apis to register/unregister pkcs
+
+    * ``oci db data-guard-association create-data-guard-association-google-cloud-provider-encryption-key-details``
+    * ``oci db database change-encryption-key-location-google-cloud-provider-encryption-key-details``
+    * ``oci db cloud-vm-cluster register-cloud-vm-cluster-pkcs``
+    * ``oci db cloud-vm-cluster unregister-cloud-vm-cluster-pkcs``
+
+* Database Multicloud Service
+
+  * Support for the gcp commands
+
+    * ``oci dbmulticloud oracle-db-gcp-identity-connector``
+    * ``oci dbmulticloud oracle-db-gcp-key``
+    * ``oci dbmulticloud oracle-db-gcp-key-ring``
+
+  * Support for new optional parameters in below commands
+
+    * ``oci dbmulticloud oracle-db-azure-vault refresh --oracle-db-azure-connector-id``
+    * ``oci dbmulticloud multi-cloud-resource-discovery list --resources-filter``
+    * ``oci dbmulticloud multi-cloud-resource-discovery create --resources-filter``
+
+* Cloud Guard Service
+
+  * Support for new parameters for below commands
+
+    * ``oci cloud-guard managed-list update --group``
+    * ``oci cloud-guard managed-list create --group``
+
+  * Support for new sub-parameters within the complex parameter for below commands
+
+    * ``oci cloud-guard detector-recipe create --detector-rules [complex type]``
+    * ``oci cloud-guard detector-recipe update --detector-rules [complex type]``
+    * ``oci cloud-guard detector-recipe-detector-rule create create --detector-rules [complex type]``
+    * ``oci cloud-guard detector-recipe-detector-rule create create --detector-rules [complex type]``
+
+* Support for validating backup for backup in the MySql HeatWave Service
+
+  * ``oci mysql backup validate --backup-id $backup_id --is-prepared-backup-required $prepare_backup``
+
+* Support for new GenericChatRequest parameters in Generative AI inference service
+
+  * ``oci generative-ai-inference chat-result chat-generic-chat-request --chat-request-web-search-options``
+
+* Support for new list-endpoints parameters in the Generative AI Service Management
+
+  * ``oci generative-ai endpoint-collection list-endpoints --generative-ai-private-endpoint-id``
+
 3.65.0 - 2025-08-26
 --------------------
 Fixed
@@ -23,7 +253,7 @@ Removed
 
 Added
 ~~~~~
-* Support for Managed Kafka Service
+* Support for OCI Streaming with Apache Kafka (OCI Managed Kafka) service
 
   * ``oci kafka``
 

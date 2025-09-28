@@ -1783,12 +1783,14 @@ def add_storage_capacity_cloud_exadata_infrastructure(ctx, **kwargs):
     ctx.invoke(database_cli.add_storage_capacity_cloud_exadata_infrastructure, **kwargs)
 
 
-@cli_util.copy_params_from_generated_command(database_cli.create_cloud_vm_cluster, params_to_exclude=['cloud_exadata_infrastructure_id', 'is_sparse_diskgroup_enabled', 'is_local_backup_enabled', 'ssh_public_keys', 'data_collection_options'])
+# Renaming the parameter exascale-db-storage-vault-id to vault-id
+@cli_util.copy_params_from_generated_command(database_cli.create_cloud_vm_cluster, params_to_exclude=['cloud_exadata_infrastructure_id', 'is_sparse_diskgroup_enabled', 'is_local_backup_enabled', 'ssh_public_keys', 'data_collection_options', 'exascale_db_storage_vault_id'])
 @database_cli.cloud_vm_cluster_group.command('create', help=database_cli.create_cloud_vm_cluster.help)
 @cli_util.option('--cloud-exa-infra-id', required=True, help=u"""The [OCID] of the cloud Exadata infrastructure.""")
 @cli_util.option('--is-sparse-diskgroup', type=click.BOOL, help=u"""If true, the sparse disk group is configured for the cloud VM cluster. If false, the sparse disk group is not created.""")
 @cli_util.option('--is-local-backup', type=click.BOOL, help=u"""If true, database backup on local Exadata storage is configured for the cloud VM cluster. If false, database backup on local Exadata storage is not available in the cloud VM cluster.""")
 @cli_util.option('--ssh-authorized-keys-file', required=True, type=click.File('r'), help="""A file containing one or more public SSH keys to use for SSH access to the Cloud VM Cluster. Use a newline character to separate multiple keys. The length of the combined keys cannot exceed 10,000 characters.""")
+@cli_util.option('--vault-id', help=u"""The [OCID] of the Exadata Database Storage Vault.""")
 @cli_util.option('--data-collection-options', type=custom_types.CLI_COMPLEX_TYPE, help=DATA_COLLECTION_OPTIONS_HELP)
 @click.pass_context
 @json_skeleton_utils.json_skeleton_generation_handler(input_params_to_complex_types={'ssh-public-keys': {'module': 'database', 'class': 'list[string]'}, 'nsg-ids': {'module': 'database', 'class': 'list[string]'}, 'backup-network-nsg-ids': {'module': 'database', 'class': 'list[string]'}, 'freeform-tags': {'module': 'database', 'class': 'dict(str, string)'}, 'defined-tags': {'module': 'database', 'class': 'dict(str, dict(str, object))'}, 'data-collection-options': {'module': 'database', 'class': 'DataCollectionOptions'}}, output_type={'module': 'database', 'class': 'CloudVmCluster'})
@@ -1802,12 +1804,30 @@ def create_cloud_vm_cluster(ctx, **kwargs):
         content = [line.rstrip('\n') for line in kwargs['ssh_authorized_keys_file']]
         kwargs['ssh_public_keys'] = json.dumps(content)
 
+    if 'vault_id' in kwargs:
+        kwargs['exascale_db_storage_vault_id'] = kwargs['vault_id']
+
     kwargs.pop('cloud_exa_infra_id')
     kwargs.pop('is_sparse_diskgroup')
     kwargs.pop('is_local_backup')
     kwargs.pop('ssh_authorized_keys_file')
+    kwargs.pop('vault_id')
 
     ctx.invoke(database_cli.create_cloud_vm_cluster, **kwargs)
+
+
+# Renaming the parameter cloud-exadata-infrastructure-id to cloud-exa-infra-id
+@cli_util.copy_params_from_generated_command(database_cli.configure_exascale_cloud_exadata_infrastructure, params_to_exclude=['cloud_exadata_infrastructure_id'])
+@database_cli.cloud_exadata_infrastructure_group.command('configure-exascale', help=database_cli.configure_exascale_cloud_exadata_infrastructure.help)
+@cli_util.option('--cloud-exa-infra-id', required=True, help=u"""The [OCID] of the cloud Exadata infrastructure.""")
+@click.pass_context
+@json_skeleton_utils.json_skeleton_generation_handler(input_params_to_complex_types={}, output_type={'module': 'database', 'class': 'CloudExadataInfrastructure'})
+@cli_util.wrap_exceptions
+def configure_exascale_cloud_exadata_infrastructure_extend(ctx, **kwargs):
+    kwargs['cloud_exadata_infrastructure_id'] = kwargs['cloud_exa_infra_id']
+    kwargs.pop('cloud_exa_infra_id')
+
+    ctx.invoke(database_cli.configure_exascale_cloud_exadata_infrastructure, **kwargs)
 
 
 @cli_util.copy_params_from_generated_command(database_cli.change_cloud_exadata_infrastructure_compartment, params_to_exclude=['cloud_exadata_infrastructure_id'])
@@ -3545,7 +3565,7 @@ def update_data_guard_association(ctx, from_json, wait_for_state, max_wait_secon
 @database_cli.autonomous_database_group.command(name=database_cli.delete_autonomous_database.name, help=database_cli.delete_autonomous_database.help)
 @click.pass_context
 @cli_util.wrap_exceptions
-def delete_autonomous_database_extended(ctx, from_json, wait_for_state, max_wait_seconds, wait_interval_seconds, autonomous_database_id, if_match, opc_dry_run):
+def delete_autonomous_database_extended(ctx, from_json, wait_for_state, max_wait_seconds, wait_interval_seconds, autonomous_database_id, if_match, must_delete_associated_long_term_backups, opc_dry_run):
 
     if isinstance(autonomous_database_id, six.string_types) and len(autonomous_database_id.strip()) == 0:
         raise click.UsageError('Parameter --autonomous-database-id cannot be whitespace or empty string')
@@ -3553,6 +3573,8 @@ def delete_autonomous_database_extended(ctx, from_json, wait_for_state, max_wait
     kwargs = {}
     if if_match is not None:
         kwargs['if_match'] = if_match
+    if must_delete_associated_long_term_backups is not None:
+        kwargs['must_delete_associated_long_term_backups'] = must_delete_associated_long_term_backups
     if opc_dry_run is not None:
         kwargs['opc_dry_run'] = opc_dry_run
     kwargs['opc_request_id'] = cli_util.use_or_generate_request_id(ctx.obj['request_id'])
@@ -3961,10 +3983,12 @@ def list_gi_version_minor_versions_extended(ctx, **kwargs):
 
 # Renaming the parameter high-capacity-database-storage to high-capacity-db-storage
 # Renaming the parameter additional-flash-cache-in-percent to flash-cache-in-percent
-@cli_util.copy_params_from_generated_command(database_cli.create_exascale_db_storage_vault, params_to_exclude=['high_capacity_database_storage', 'additional_flash_cache_in_percent'])
+# Renaming the parameter exadata-infrastructure-id to exa-infra-id
+@cli_util.copy_params_from_generated_command(database_cli.create_exascale_db_storage_vault, params_to_exclude=['high_capacity_database_storage', 'additional_flash_cache_in_percent', 'exadata_infrastructure_id'])
 @database_cli.exascale_db_storage_vault_group.command('create', help=database_cli.create_exascale_db_storage_vault.help)
 @cli_util.option('--high-capacity-storage-gb', required=True, type=click.INT, help=u"""The size of High Capacity database storage (GB).""")
 @cli_util.option('--flash-cache-in-percent', type=click.INT, help=u"""The size of additional Flash Cache in percentage of High Capacity database storage.""")
+@cli_util.option('--exa-infra-id', help=u"""The [OCID] of the Exadata infrastructure.""")
 @click.pass_context
 @json_skeleton_utils.json_skeleton_generation_handler(input_params_to_complex_types={'high-capacity-database-storage': {'module': 'database', 'class': 'ExascaleDbStorageInputDetails'}, 'freeform-tags': {'module': 'database', 'class': 'dict(str, string)'}, 'defined-tags': {'module': 'database', 'class': 'dict(str, dict(str, object))'}}, output_type={'module': 'database', 'class': 'ExascaleDbStorageVault'})
 @cli_util.wrap_exceptions
@@ -3980,9 +4004,28 @@ def create_exascale_db_storage_vault_extended(ctx, **kwargs):
     if 'flash_cache_in_percent' in kwargs:
         kwargs['additional_flash_cache_in_percent'] = kwargs['flash_cache_in_percent']
 
+    if 'exa_infra_id' in kwargs:
+        kwargs['exadata_infrastructure_id'] = kwargs['exa_infra_id']
+
     kwargs.pop('high_capacity_storage_gb')
     kwargs.pop('flash_cache_in_percent')
+    kwargs.pop('exa_infra_id')
     ctx.invoke(database_cli.create_exascale_db_storage_vault, **kwargs)
+
+
+# Renaming the parameter exadata-infrastructure-id to exa-infra-id
+@cli_util.copy_params_from_generated_command(database_cli.list_exascale_db_storage_vaults, params_to_exclude=['exadata_infrastructure_id'])
+@database_cli.exascale_db_storage_vault_group.command('list', help=database_cli.list_exascale_db_storage_vaults.help)
+@cli_util.option('--exa-infra-id', help=u"""A filter to return only list of Vaults that are linked to the exadata infrastructure Id.""")
+@click.pass_context
+@json_skeleton_utils.get_cli_json_input_option({})
+@cli_util.wrap_exceptions
+def list_exascale_db_storage_vaults_extended(ctx, **kwargs):
+    if 'exa_infra_id' in kwargs:
+        kwargs['exadata_infrastructure_id'] = kwargs['exa_infra_id']
+
+    kwargs.pop('exa_infra_id')
+    ctx.invoke(database_cli.list_exascale_db_storage_vaults, **kwargs)
 
 
 # Renaming the parameter exascale-db-storage-vault-id to vault-id
@@ -4208,7 +4251,12 @@ def create_standby_database_for_multiple_standby(ctx, wait_for_state, max_wait_s
     client = cli_util.build_client('database', 'database', ctx)
 
     create_new_database_details = _details
-    result = client.create_database(create_new_database_details)
+
+    opc_dry_run_args = {}
+    if 'opc_dry_run' in kwargs and kwargs['opc_dry_run']:
+        opc_dry_run_args['opc_dry_run'] = kwargs['opc_dry_run']
+
+    result = client.create_database(create_new_database_details, **opc_dry_run_args)
 
     if wait_for_state:
 
@@ -4233,7 +4281,11 @@ def create_standby_database_for_multiple_standby(ctx, wait_for_state, max_wait_s
                 raise
         else:
             click.echo('Unable to wait for the resource to enter the specified state', file=sys.stderr)
-    cli_util.render_response(result, ctx)
+    if result.data.id is not None:
+        cli_util.render_response(result, ctx)
+    else:
+        result.data = None
+        cli_util.render_response(result, ctx)
 
 
 # Multiple Stabdby : Migrate from Single Standby:  oci db data-guard-association migrate-data-guard-association-to-multi-data-guards -> oci db data-guard-association migrate-to-multiple-standby-model
