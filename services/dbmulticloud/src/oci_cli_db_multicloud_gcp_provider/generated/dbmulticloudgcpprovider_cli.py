@@ -44,7 +44,13 @@ It relies on both the Oracle Azure Connector and the Oracle Azure Blob Container
 
 <b>Google Key Rings Resource:</b>&nbsp;&nbsp;The Google Key Rings Resource is used to register and manage Google Cloud Key Rings within Oracle Cloud Infrastructure (OCI) for use with services such as Oracle Exadata Database Service on Dedicated Infrastructure.
 
-<b>Google Key Resource:</b>&nbsp;&nbsp;The Google Key Resource is used to register and manage a Google Cloud Key within Oracle Cloud Infrastructure (OCI) under an associated Google Key Ring."""), short_help=cli_util.override('db_multicloud_gcp_provider.db_multicloud_gcp_provider_root_group.short_help', """Oracle Database MultiCloud Data Plane Integration"""))
+<b>Google Key Resource:</b>&nbsp;&nbsp;The Google Key Resource is used to register and manage a Google Cloud Key within Oracle Cloud Infrastructure (OCI) under an associated Google Key Ring.
+<br>
+
+<b>AWS</b>:<br>
+<b>Oracle AWS Connector Resource:</b>&nbsp;&nbsp;The Oracle AWS Connector Resource is used to install the AWS Identity Connector on an Exadata VM cluster in Oracle Exadata Database Service on Dedicated Infrastructure (ExaDB-D).
+
+<b>Google AWS Key Resource:</b>&nbsp;&nbsp;The Oracle AWS Key Resource is used to register and manage a AWS Key within Oracle Cloud Infrastructure (OCI)."""), short_help=cli_util.override('db_multicloud_gcp_provider.db_multicloud_gcp_provider_root_group.short_help', """Oracle Database MultiCloud Data Plane Integration"""))
 @cli_util.help_option_group
 def db_multicloud_gcp_provider_root_group():
     pass
@@ -559,7 +565,7 @@ def get_oracle_db_gcp_key_ring(ctx, from_json, oracle_db_gcp_key_ring_id, limit,
 @oracle_db_gcp_identity_connector_group.command(name=cli_util.override('db_multicloud_gcp_provider.list_oracle_db_gcp_identity_connectors.command_name', 'list'), help=u"""Lists all Oracle DB GCP Identity Connectors based on the specified filters. \n[Command Reference](listOracleDbGcpIdentityConnectors)""")
 @cli_util.option('--compartment-id', required=True, help=u"""The [ID] of the compartment.""")
 @cli_util.option('--display-name', help=u"""A filter to return Oracle DB GCP Identity Connector resources that match the specified display name.""")
-@cli_util.option('--resource-id', help=u"""A filter to return Oracle DB GCP Identity Connector resource that match the given resource [OCID].""")
+@cli_util.option('--resource-id', help=u"""A filter to return Oracle DB Identity Connector resource that match the given resource [OCID].""")
 @cli_util.option('--lifecycle-state', type=custom_types.CliCaseInsensitiveChoice(["CREATING", "ACTIVE", "UPDATING", "DELETING", "DELETED", "FAILED"]), help=u"""A filter to return only resources that match the specified lifecycle state. The state value is case-insensitive.""")
 @cli_util.option('--limit', type=click.INT, help=u"""The maximum number of items to return.""")
 @cli_util.option('--page', help=u"""The page token representing the page at which to start retrieving results. This is usually retrieved from a previous list call.""")

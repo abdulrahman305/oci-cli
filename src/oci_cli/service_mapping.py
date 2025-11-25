@@ -273,6 +273,11 @@ service_mapping = {
         "DevOps",
         "Developer Services"
     ],
+    "dif": [
+        "dif",
+        "DataIntelligences Control Plane",
+        "Others"
+    ],
     "disaster-recovery": [
         "disaster_recovery",
         "Full Stack Disaster Recovery",
@@ -637,6 +642,11 @@ service_mapping = {
         "osub_usage",
         "OneSubscription  Usage Computation",
         "Billing & Cost Management"
+    ],
+    "psa": [
+        "psa",
+        "PrivateServiceAccess Control Plane",
+        "Others"
     ],
     "psql": [
         "psql",
